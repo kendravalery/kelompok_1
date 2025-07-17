@@ -1,25 +1,32 @@
-let menuicon = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
-let sections = document.querySelectorAll('section');
-let navlinks = document.querySelectorAll('header nav a');
+document.addEventListener("DOMContentLoaded", () => {
+  const menuicon = document.querySelector('#menu-icon');
+  const navbar = document.querySelector('.navbar');
+  const sections = document.querySelectorAll('section');
+  const navlinks = document.querySelectorAll('header nav a');
 
-
-window.onscroll = () => {
-    sections.foreach(sec => {
-        let top = window.scrolly;
-        let offset = sec.offsetTop - 150;
-        let height = sec.offsetheight;
-        let id = sec.getAttribute('id');
-
-        if(top >= offset && top < offset + height ){
-            navlinks.foreach(links => {
-                links.classlist.remove('active');
-                document.querySelector('header nav a [href*=' + id + ' ]').classlist.add('active');
-            })
-        }
-    })
-}
-menuicon.onclink = () => {
-    menuicon.classlist.toggle('bx-x');
+  menuicon.onclick = () => {
+    menuicon.classList.toggle('bx-x');
     navbar.classList.toggle('active');
-}
+  };
+
+  window.onscroll = () => {
+    let top = window.scrollY;
+
+    sections.forEach(sec => {
+      let offset = sec.offsetTop - 150;
+      let height = sec.offsetHeight;
+      let id = sec.getAttribute('id');
+
+      if (top >= offset && top < offset + height) {
+        navlinks.forEach(link => {
+          link.classList.remove('active');
+        });
+        document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
+      }
+    });
+
+    // Close menu on scroll (mobile)
+    menuicon.classList.remove('bx-x');
+    navbar.classList.remove('active');
+  };
+});
